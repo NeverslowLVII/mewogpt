@@ -1,13 +1,58 @@
-export default function Home() {
+import { useState } from 'react';
+import { useRouter } from 'next/router';
+import FormInput from '@/components/FormInput';
+import { Conversation } from '@/types/Conversation';
+
+type HomeProps = {
+  addConversation: (conversation: Conversation) => void;
+};
+
+export default function Home({ addConversation }: HomeProps) {
+  const router = useRouter();
+
+  const [text, setText] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<Error | null>(null);
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!text) return;
+
+    setLoading(true);
+    setError(null);
+    fetch('/api/conversations', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ content: text }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        addConversation(data);
+        router.push(`/conversations/${data.id}`);
+      })
+      .catch((err) => {
+        setLoading(false);
+        setError(err);
+      });
+  };
+
   return (
-    <main className="w-full bg-gray-200 dark:bg-gray-800 p-8">
-      <h1 className={`text-3xl font-bold`}>Welcome to Next.js Chat!</h1>
-      <ul>
-        <li>Implement a way to create a conversation</li>
-        <li>Implement the timestamp for each message</li>
-        <li>Document API</li>
-        <li>Implement delete conversation</li>
-      </ul>
+    <main className="flex flex-col h-full w-full bg-gray-200 dark:bg-gray-800">
+      <div className="flex-1 overflow-y-auto">
+        {error && (
+          <div className="bg-red-500 text-white p-4 mb-4">{error.message}</div>
+        )}
+      </div>
+      <FormInput
+        disabled={loading}
+        handleSubmit={onSubmit}
+        text={text}
+        handleTextChange={setText}
+      />
     </main>
   );
 }

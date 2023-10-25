@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Conversation } from '@/components/NavBar/NavBar';
+import { Conversation } from '@/types/Conversation';
 
 type ConversationItemProps = {
   className?: string;
@@ -41,7 +41,7 @@ export default function ConversationItem({
 
   return (
     <Link className={computedClassName} href={href}>
-      {conversation.lastMessage}
+      {conversation.firstMessage}
     </Link>
   );
 }

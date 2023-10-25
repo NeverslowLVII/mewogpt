@@ -1,33 +1,16 @@
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
 import ConversationItem from '@/components/NavBar/ConversationItem';
+import { Conversation } from '@/types/Conversation';
 
-export type Conversation = {
-  id: string;
-  lastMessage: string;
+type NavBarProps = {
+  conversations: Conversation[];
+  loading: boolean;
+  error: Error | null;
 };
 
-export default function NavBar() {
-  const [conversations, setConversation] = useState<Conversation[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<Error | null>(null);
-
-  useEffect(() => {
-    // Fetch /api/conversations
-    fetch('/api/conversations')
-      .then((res) => res.json())
-      .then((data) => {
-        setConversation(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err);
-        setLoading(false);
-      });
-  }, []);
-
+export default function NavBar({ conversations, loading, error }: NavBarProps) {
   return (
-    <nav className="bg-gray-100 dark:bg-gray-900 w-[260px]">
+    <nav className="bg-gray-100 dark:bg-gray-900 w-[260px] overflow-y-auto">
       <h1 className="text-2xl font-bold p-4">
         <Link href="/">mewoGPT</Link>
       </h1>
