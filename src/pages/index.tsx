@@ -1,11 +1,14 @@
-import { Inter } from 'next/font/google';
-
-const inter = Inter({ subsets: ['latin'] });
+import Message from '@/components/Message';
 
 export default function Home() {
   return (
-    <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
-    />
+    <main className="w-full bg-gray-200 dark:bg-gray-800 p-8">
+      <h1 className={`text-3xl font-bold`}>Welcome to Next.js Chat!</h1>
+      <ul>
+        <li>Implement a way to create a conversation</li>
+        <li>Implement the timestamp for each message</li>
+        <li>Document API</li>
+      </ul>
+    </main>
   );
 }

@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { getAuthUser } from '@/lib/auth';
 import prisma from '@/lib/db';
 import { askGPT } from '@/lib/gpt';
+import { Conversation } from '@prisma/client';
 
 export default async function handle(
   req: NextApiRequest,
@@ -27,14 +28,14 @@ export default async function handle(
         },
       },
     },
-  })) as {
-    id: number;
-    userId: number | null;
-    messages: {
-      content: string;
-      role: 'user' | 'assistant';
-    }[];
-  } | null;
+  })) as
+    | (Conversation & {
+        messages: {
+          content: string;
+          role: 'user' | 'assistant';
+        }[];
+      })
+    | null;
 
   if (!conversation) {
     res.status(404).json({ error: 'conversation not found' });
@@ -59,7 +60,7 @@ export default async function handle(
 
   const messageGPT = await askGPT(conversation.messages);
 
-  await prisma.conversation.update({
+  const conversationUpdated = await prisma.conversation.update({
     where: {
       id: conversation.id,
     },
@@ -75,7 +76,24 @@ export default async function handle(
         ],
       },
     },
+    include: {
+      messages: {
+        orderBy: {
+          id: 'desc',
+        },
+        select: {
+          id: true,
+          content: true,
+          role: true,
+          timestamp: true,
+        },
+        take: 2,
+      },
+    },
   });
 
-  res.status(200).json({ content: messageGPT.content });
+  // Reverse messages order
+  conversationUpdated.messages.reverse();
+
+  res.status(200).json({ messages: conversationUpdated.messages });
 }
