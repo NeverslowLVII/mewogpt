@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 type MessageProps = {
   content: string;
   role: 'assistant' | 'user';
@@ -16,12 +18,12 @@ export default function Message({ content, role }: MessageProps) {
       className={`${bgColor} p-4 justify-center text-base md:gap-6 md:py-6 m-auto`}
     >
       <div className="flex flex-1 gap-4 text-base mx-auto md:gap-6 md:max-w-2xl lg:max-w-[38rem] xl:max-w-3xl">
-        <img
+        <Image
           className="rounded-sm"
+          src={src}
+          alt={alt}
           width={36}
           height={36}
-          alt={alt}
-          src={src}
         />
         <div className="relative flex w-[calc(100%-50px)] flex-col lg:w-[calc(100%-115px)]">
           <div className="flex-col gap-1 md:gap-3">

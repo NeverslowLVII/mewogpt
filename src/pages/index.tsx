@@ -6,6 +6,7 @@ export default function Home() {
         <li>Implement a way to create a conversation</li>
         <li>Implement the timestamp for each message</li>
         <li>Document API</li>
+        <li>Implement delete conversation</li>
       </ul>
     </main>
   );
