@@ -1,5 +1,3 @@
-import Message from '@/components/Message';
-
 export default function Home() {
   return (
     <main className="w-full bg-gray-200 dark:bg-gray-800 p-8">
