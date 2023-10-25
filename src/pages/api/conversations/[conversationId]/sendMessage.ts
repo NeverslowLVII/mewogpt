@@ -58,7 +58,13 @@ export default async function handle(
 
   const { content } = req.body;
 
-  const messageGPT = await askGPT(conversation.messages);
+  const messageGPT = await askGPT([
+    ...conversation.messages,
+    {
+      role: 'user',
+      content,
+    },
+  ]);
 
   const conversationUpdated = await prisma.conversation.update({
     where: {

@@ -56,11 +56,7 @@ export default function ConversationPage() {
       .then((res) => res.json())
       .then((data) => {
         setLoadingResponse(false);
-        setMessages((messagesPrev) => {
-          console.log(messagesPrev);
-          console.log(data.messages);
-          return [...messagesPrev, ...data.messages];
-        });
+        setMessages((messagesPrev) => [...messagesPrev, ...data.messages]);
         setInput('');
       })
       .catch((err) => {
