@@ -6,8 +6,13 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+enum Role {
+  user
+  assistant
 }
 
 model User {
@@ -29,6 +34,6 @@ model Message {
   content        String
   conversationId Int
   conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
-  role           String
+  role           Role
   timestamp      DateTime     @default(now())
 }
