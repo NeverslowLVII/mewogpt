@@ -2,7 +2,6 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { getAuthUser } from '@/lib/auth';
 import prisma from '@/lib/db';
 import { askGPT } from '@/lib/gpt';
-import { Conversation } from '@prisma/client';
 
 async function POST(req: NextApiRequest, res: NextApiResponse) {
   const timestamp = new Date();
@@ -20,14 +19,7 @@ async function POST(req: NextApiRequest, res: NextApiResponse) {
         },
       },
     },
-  })) as
-    | (Conversation & {
-        messages: {
-          content: string;
-          role: 'user' | 'assistant';
-        }[];
-      })
-    | null;
+  }));
 
   if (!conversation) {
     res.status(404).json({ error: 'conversation not found' });

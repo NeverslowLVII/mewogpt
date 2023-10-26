@@ -1,4 +1,5 @@
 import OpenAI from 'openai';
+import { Role } from '@prisma/client';
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -6,7 +7,7 @@ const openai = new OpenAI({
 
 export const askGPT = (
   messages: { role: 'user' | 'assistant'; content: string }[]
-) => {
+): Promise<Awaited<{ role: Role; content: string }>> => {
   if (process.env.NODE_ENV === 'development') {
     return Promise.resolve({
       role: 'assistant',
