@@ -3,6 +3,10 @@ import prisma from '@/lib/db';
 import { askGPT } from '@/lib/gpt';
 import { getAuthUser } from '@/lib/auth';
 
+export const config = {
+  maxDuration: 30, // Give max 30 seconds to GPT to respond
+};
+
 async function POST(req: NextApiRequest, res: NextApiResponse) {
   const { content } = req.body;
   const timestamp = new Date();

@@ -3,11 +3,15 @@ import { getAuthUser } from '@/lib/auth';
 import prisma from '@/lib/db';
 import { askGPT } from '@/lib/gpt';
 
+export const config = {
+  maxDuration: 30, // Give max 30 seconds to GPT to respond
+};
+
 async function POST(req: NextApiRequest, res: NextApiResponse) {
   const timestamp = new Date();
 
   // Check if conversation exists
-  const conversation = (await prisma.conversation.findUnique({
+  const conversation = await prisma.conversation.findUnique({
     where: {
       id: Number(req.query.conversationId),
     },
@@ -19,7 +23,7 @@ async function POST(req: NextApiRequest, res: NextApiResponse) {
         },
       },
     },
-  }));
+  });
 
   if (!conversation) {
     res.status(404).json({ error: 'conversation not found' });

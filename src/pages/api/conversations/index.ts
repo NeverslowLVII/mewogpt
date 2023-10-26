@@ -3,6 +3,10 @@ import { getAuthUser } from '@/lib/auth';
 import prisma from '@/lib/db';
 import { askGPT } from '@/lib/gpt';
 
+export const config = {
+  maxDuration: 30, // Give max 30 seconds to GPT to respond
+};
+
 async function GET(req: NextApiRequest, res: NextApiResponse) {
   const userAuth = await getAuthUser(req);
 
