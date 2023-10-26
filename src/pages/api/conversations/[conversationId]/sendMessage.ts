@@ -4,15 +4,7 @@ import prisma from '@/lib/db';
 import { askGPT } from '@/lib/gpt';
 import { Conversation } from '@prisma/client';
 
-export default async function handle(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  if (req.method !== 'POST') {
-    res.status(405).json({ error: 'method not allowed, please use POST' });
-    return;
-  }
-
+async function POST(req: NextApiRequest, res: NextApiResponse) {
   const timestamp = new Date();
 
   // Check if conversation exists
@@ -102,4 +94,21 @@ export default async function handle(
   conversationUpdated.messages.reverse();
 
   res.status(200).json({ messages: conversationUpdated.messages });
+}
+
+export default async function handle(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  if (req.method !== 'POST') {
+    res.status(405).json({ error: 'method not allowed, please use POST' });
+    return;
+  }
+
+  try {
+    await POST(req, res);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'internal server error' });
+  }
 }

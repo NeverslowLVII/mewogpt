@@ -82,13 +82,19 @@ export default async function handle(
     return;
   }
 
-  if (req.method === 'GET') {
-    await GET(req, res);
-    return;
-  }
+  try {
+    if (req.method === 'GET') {
+      await GET(req, res);
+      return;
+    }
 
-  if (req.method === 'POST') {
-    await POST(req, res);
+    if (req.method === 'POST') {
+      await POST(req, res);
+      return;
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'internal server error' });
     return;
   }
 }
