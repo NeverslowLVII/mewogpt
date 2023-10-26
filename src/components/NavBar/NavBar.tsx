@@ -16,6 +16,9 @@ export default function NavBar({ conversations, loading, error }: NavBarProps) {
       </h1>
       {loading && <p>Loading...</p>}
       {error && <p>Error: {error.message}</p>}
+      {!loading && !error && conversations.length === 0 && (
+        <p>No conversations yet</p>
+      )}
       <ul>
         {conversations.map((conversation) => (
           <li key={conversation.id}>
