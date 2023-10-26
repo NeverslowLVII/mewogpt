@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Message from '@/components/Message';
+import MessageLoading from '@/components/MessageLoading';
 import FormInput from '@/components/FormInput';
 
 type Message = {
@@ -81,6 +82,13 @@ export default function ConversationPage() {
             role={message.role}
           />
         ))}
+        {loadingResponse && <MessageLoading />}
+        {errorResponse && (
+          <Message
+            role="assistant"
+            content={`Error: ${errorResponse.message}`}
+          />
+        )}
       </div>
       <FormInput
         disabled={disabledForm}
