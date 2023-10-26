@@ -20,7 +20,7 @@ CREATE TABLE `Conversation` (
 -- CreateTable
 CREATE TABLE `Message` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `content` VARCHAR(191) NOT NULL,
+    `content` TEXT NOT NULL,
     `conversationId` INTEGER NOT NULL,
     `role` ENUM('user', 'assistant') NOT NULL,
     `timestamp` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
