@@ -27,6 +27,8 @@ export default function ConversationPage() {
     fetch(`/api/conversations/${conversationId}`)
       .then((res) => res.json())
       .then((data) => {
+        if (data.error) throw new Error(data.error);
+
         setMessages(data.messages);
         setLoadingInit(false);
       })
@@ -55,6 +57,8 @@ export default function ConversationPage() {
     })
       .then((res) => res.json())
       .then((data) => {
+        if (data.error) throw new Error(data.error);
+
         setLoadingResponse(false);
         setMessages((messagesPrev) => [...messagesPrev, ...data.messages]);
         setInput('');

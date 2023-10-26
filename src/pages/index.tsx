@@ -30,6 +30,8 @@ export default function Home({ addConversation }: HomeProps) {
     })
       .then((res) => res.json())
       .then((data) => {
+        if (data.error) throw new Error(data.error);
+
         addConversation(data);
         router.push(`/conversations/${data.id}`);
       })

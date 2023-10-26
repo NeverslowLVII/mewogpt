@@ -14,6 +14,8 @@ export default function App({ Component, pageProps }: AppProps) {
     fetch('/api/conversations')
       .then((res) => res.json())
       .then((data) => {
+        if (data.error) throw new Error(data.error);
+
         setConversations(data);
         setLoading(false);
       })
