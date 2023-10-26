@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "db:init": "prisma migrate dev --name init",
+    "db:migrate": "prisma migrate dev",
     "vercel-build": "prisma generate && prisma migrate deploy && next build",
     "prisma:generate": "prisma generate"
   },
