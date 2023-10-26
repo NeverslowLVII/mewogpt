@@ -15,7 +15,7 @@ export default function Layout({
   children,
 }: LayoutProps) {
   return (
-    <div className="flex h-screen w-screen text-gray-200">
+    <div className="flex h-screen w-screen text-gray-800 dark:text-gray-200">
       <NavBar conversations={conversations} loading={loading} error={error} />
       {children}
     </div>

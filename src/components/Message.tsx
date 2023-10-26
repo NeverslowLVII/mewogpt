@@ -6,7 +6,10 @@ type MessageProps = {
 };
 
 export default function Message({ content, role }: MessageProps) {
-  const bgColor = role === 'assistant' ? 'bg-[#444654]' : 'bg-gray-800';
+  const bgColor =
+    role === 'assistant'
+      ? 'dark:bg-[#444654] bg-[#f5f5fa]'
+      : 'dark:bg-gray-800 bg-[#e5e5ea]';
   const alt = role === 'assistant' ? 'Assistant' : 'User';
   const src =
     role === 'assistant'
