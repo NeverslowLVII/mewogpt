@@ -6,8 +6,9 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
 enum Role {
@@ -27,6 +28,8 @@ model Conversation {
   messages Message[]
   user     User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId   Int?
+
+  @@index([userId], name: "userId")
 }
 
 model Message {
@@ -36,4 +39,6 @@ model Message {
   conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
   role           Role
   timestamp      DateTime     @default(now())
+
+  @@index([conversationId], name: "conversationId")
 }
