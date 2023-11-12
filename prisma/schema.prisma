@@ -6,14 +6,8 @@ generator client {
 }
 
 datasource db {
-  provider     = "mysql"
-  url          = env("DATABASE_URL")
-  relationMode = "prisma"
-}
-
-enum Role {
-  user
-  assistant
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -28,17 +22,13 @@ model Conversation {
   messages Message[]
   user     User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId   Int?
-
-  @@index([userId], name: "userId")
 }
 
 model Message {
   id             Int          @id @default(autoincrement())
-  content        String       @db.Text
+  content        String
   conversationId Int
   conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
-  role           Role
+  role           String
   timestamp      DateTime     @default(now())
-
-  @@index([conversationId], name: "conversationId")
 }
