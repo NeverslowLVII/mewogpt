@@ -17,6 +17,8 @@ export default function App({ Component, pageProps }: AppProps) {
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
+    setLoading(true);
+    setError(null);
     // Fetch /api/conversations
     fetch('/api/conversations', {
       ...(auth.token && {

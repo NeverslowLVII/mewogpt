@@ -9,6 +9,7 @@ function useLoginMutation() {
 
   const mutate = async (credentials: any, options: any = {}) => {
     setIsLoading(true);
+    setError(null);
     try {
       const res = await fetch('/api/auth/login', {
         method: 'POST',

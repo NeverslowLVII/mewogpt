@@ -28,6 +28,8 @@ export default function ConversationPage() {
   useEffect(() => {
     if (!router.isReady) return;
     // Fetch /api/conversations
+    setLoadingInit(true);
+    setErrorInit(null);
     fetch(`/api/conversations/${conversationId}`, {
       ...(token && {
         headers: {
