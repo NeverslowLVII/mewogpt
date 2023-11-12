@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useRouter } from 'next/router';
 import FormInput from '@/components/FormInput';
 import { Conversation } from '@/types/Conversation';
+import { AuthContext } from '@/context/AuthContext';
 
 type HomeProps = {
   addConversation: (conversation: Conversation) => void;
@@ -9,6 +10,8 @@ type HomeProps = {
 
 export default function Home({ addConversation }: HomeProps) {
   const router = useRouter();
+
+  const { token } = useContext(AuthContext);
 
   const [text, setText] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
@@ -25,6 +28,9 @@ export default function Home({ addConversation }: HomeProps) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        ...(token && {
+          Authorization: `Bearer ${token}`,
+        }),
       },
       body: JSON.stringify({ content: text }),
     })

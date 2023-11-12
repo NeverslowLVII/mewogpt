@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Message from '@/components/Message';
 import MessageLoading from '@/components/MessageLoading';
 import FormInput from '@/components/FormInput';
+import { AuthContext } from '@/context/AuthContext';
 
 type Message = {
   id: string;
@@ -15,6 +16,8 @@ export default function ConversationPage() {
   const router = useRouter();
   const { conversationId } = router.query;
 
+  const { token } = useContext(AuthContext);
+
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<Message[]>([]);
   const [loadingInit, setLoadingInit] = useState<boolean>(true);
@@ -25,7 +28,13 @@ export default function ConversationPage() {
   useEffect(() => {
     if (!router.isReady) return;
     // Fetch /api/conversations
-    fetch(`/api/conversations/${conversationId}`)
+    fetch(`/api/conversations/${conversationId}`, {
+      ...(token && {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+    })
       .then((res) => res.json())
       .then((data) => {
         if (data.error) throw new Error(data.error);
@@ -53,6 +62,9 @@ export default function ConversationPage() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        ...(token && {
+          Authorization: `Bearer ${token}`,
+        }),
       },
       body: JSON.stringify({ content: input }),
     })

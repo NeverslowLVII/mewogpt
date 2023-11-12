@@ -10,11 +10,15 @@ export const config = {
 async function GET(req: NextApiRequest, res: NextApiResponse) {
   const userAuth = await getAuthUser(req);
 
+  const where = userAuth ? { userId: userAuth.id } : {
+    user: {
+      is: null,
+    }
+  };
+
   const conversations = await prisma.conversation
     .findMany({
-      where: {
-        userId: userAuth?.id,
-      },
+      where,
       include: {
         messages: {
           orderBy: {
@@ -28,9 +32,9 @@ async function GET(req: NextApiRequest, res: NextApiResponse) {
       },
     })
     .then((conversations) =>
-      conversations.map((conversation) => ({
+      conversations.map(({ messages, ...conversation }) => ({
         ...conversation,
-        firstMessage: conversation.messages[0]?.content,
+        firstMessage: messages[0]?.content,
       }))
     );
 
