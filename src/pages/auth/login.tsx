@@ -105,7 +105,7 @@ export default function LoginPage() {
             </form>
             <Link href="/auth/signup">
               <span className="hover:underline">
-                You don't have an account?
+                You don&apos;t have an account?
               </span>
             </Link>
           </div>

@@ -46,7 +46,7 @@ export default function ConversationPage() {
         setErrorInit(err);
         setLoadingInit(false);
       });
-  }, [router.isReady, conversationId]);
+  }, [router.isReady, conversationId, token]);
 
   const disabledForm = loadingResponse || !!errorResponse;
 
