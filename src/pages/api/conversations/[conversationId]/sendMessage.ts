@@ -4,13 +4,14 @@ import prisma from '@/lib/db';
 import { askGPT } from '@/lib/gpt';
 
 export const config = {
-  maxDuration: 30, // Give max 30 seconds to GPT to respond
+  maxDuration: 30,
 };
+
+type MessageRole = 'user' | 'assistant';
 
 async function POST(req: NextApiRequest, res: NextApiResponse) {
   const timestamp = new Date();
 
-  // Check if conversation exists
   const conversation = await prisma.conversation.findUnique({
     where: {
       id: Number(req.query.conversationId),
@@ -30,7 +31,6 @@ async function POST(req: NextApiRequest, res: NextApiResponse) {
     return;
   }
 
-  // Check if conversation is owned by user
   if (conversation.userId !== null) {
     const userAuth = await getAuthUser(req);
     if (!userAuth) {
@@ -44,12 +44,31 @@ async function POST(req: NextApiRequest, res: NextApiResponse) {
     }
   }
 
-  const { content } = req.body;
+  const { content, bypassCheck } = req.body;
+
+  const TICKET_CHECK_CHANCE = 0.15;
+  const isCheckRequired = Math.random() < TICKET_CHECK_CHANCE;
+
+  if (isCheckRequired && !bypassCheck) {
+    return res.status(200).json({
+      ticketCheckRequired: true,
+      challenge: {
+        type: 'button_click',
+        message:
+          'Attention ! Contrôle des titres de transport. Veuillez valider votre titre pour continuer.',
+      },
+    });
+  }
+
+  const typedMessages = conversation.messages.map((msg) => ({
+    role: msg.role as MessageRole,
+    content: msg.content,
+  }));
 
   const messageGPT = await askGPT([
-    ...conversation.messages,
+    ...typedMessages,
     {
-      role: 'user',
+      role: 'user' as MessageRole,
       content,
     },
   ]);
@@ -86,7 +105,6 @@ async function POST(req: NextApiRequest, res: NextApiResponse) {
     },
   });
 
-  // Reverse messages order
   conversationUpdated.messages.reverse();
 
   res.status(200).json({ messages: conversationUpdated.messages });

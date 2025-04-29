@@ -1,11 +1,11 @@
 import { useContext, useState } from 'react';
 import { useRouter } from 'next/router';
-import FormInput from '@/components/FormInput';
-import { Conversation } from '@/types/Conversation';
+import MessageInput from '@/components/FormInput';
+import type { Conversation } from '@/types/Conversation';
 import { AuthContext } from '@/context/AuthContext';
 
 type HomeProps = {
-  addConversation: (conversation: Conversation) => void;
+  addConversation: (_conversation: Conversation) => void;
 };
 
 export default function Home({ addConversation }: HomeProps) {
@@ -48,13 +48,28 @@ export default function Home({ addConversation }: HomeProps) {
   };
 
   return (
-    <main className="flex flex-col h-full w-full bg-gray-200 dark:bg-gray-800">
+    <main className="relative h-full w-full transition-width flex flex-col overflow-hidden items-stretch flex-1 bg-[#343541]">
       <div className="flex-1 overflow-y-auto">
-        {error && (
-          <div className="bg-red-500 text-white p-4 mb-4">{error.message}</div>
-        )}
+        <div className="flex flex-col items-center text-sm h-full justify-center">
+          <div className="w-full max-w-2xl px-6 py-4 m-auto">
+            <div className="p-4 bg-gray-800 rounded-lg shadow-md text-white text-center">
+              <p className="font-medium text-lg">
+                Attention à la fermeture des portes… La discussion va commencer
+                !
+              </p>
+            </div>
+          </div>
+
+          {error && (
+            <div className="w-full max-w-2xl px-6 py-2 m-auto">
+              <div className="bg-red-500 text-white p-4 rounded-lg shadow-md">
+                {error.message}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
-      <FormInput
+      <MessageInput
         disabled={loading}
         handleSubmit={onSubmit}
         text={text}

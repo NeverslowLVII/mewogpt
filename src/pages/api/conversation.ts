@@ -4,7 +4,7 @@ import { askGPT } from '@/lib/gpt';
 import { getAuthUser } from '@/lib/auth';
 
 export const config = {
-  maxDuration: 30, // Give max 30 seconds to GPT to respond
+  maxDuration: 30,
 };
 
 async function POST(req: NextApiRequest, res: NextApiResponse) {

@@ -11,7 +11,7 @@ export type Auth = {
 type ContextProps = {
   user: User | null;
   token: string | null;
-  setAuth: (auth: Auth) => void;
+  setAuth: (_auth: Auth) => void;
   isAuthenticated: boolean;
   logout: () => void;
 };

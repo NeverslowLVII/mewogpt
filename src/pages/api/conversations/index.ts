@@ -4,21 +4,26 @@ import prisma from '@/lib/db';
 import { askGPT } from '@/lib/gpt';
 
 export const config = {
-  maxDuration: 30, // Give max 30 seconds to GPT to respond
+  maxDuration: 30,
 };
 
 async function GET(req: NextApiRequest, res: NextApiResponse) {
   const userAuth = await getAuthUser(req);
 
-  const where = userAuth ? { userId: userAuth.id } : {
-    user: {
-      is: null,
-    }
-  };
+  const where = userAuth
+    ? { userId: userAuth.id }
+    : {
+        user: {
+          is: null,
+        },
+      };
 
   const conversations = await prisma.conversation
     .findMany({
       where,
+      orderBy: {
+        id: 'desc',
+      },
       include: {
         messages: {
           orderBy: {

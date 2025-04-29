@@ -1,0 +1,27 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Project Overview
+
+This is a [Next.js](mdc:https:/nextjs.org) project built with [TypeScript](mdc:https:/www.typescriptlang.org).
+
+## Key Technologies
+
+*   **Framework:** [Next.js](mdc:https:/nextjs.org) - The main application framework. Entry points are typically within `[src/pages](mdc:src/pages)`.
+*   **Styling:** [Tailwind CSS](mdc:https:/tailwindcss.com) - Configuration is in `[tailwind.config.ts](mdc:tailwind.config.ts)`. Global styles might be in `[src/styles](mdc:src/styles)`.
+*   **Database ORM:** [Prisma](mdc:https:/www.prisma.io) - Schema is defined in `[prisma/schema.prisma](mdc:prisma/schema.prisma)`. Database client and utilities might be in `[src/lib/prisma.ts](mdc:src/lib/prisma.ts)` or similar.
+*   **Linting/Formatting:** [ESLint](mdc:https:/eslint.org) (`[.eslintrc.json](mdc:.eslintrc.json)`) and potentially [Biome](mdc:https:/biomejs.dev) (`[biome.json](mdc:biome.json)`) / [Prettier](mdc:https:/prettier.io) (`[.prettierrc](mdc:.prettierrc)`).
+*   **Configuration:** Next.js config is in `[next.config.js](mdc:next.config.js)`, TypeScript config in `[tsconfig.json](mdc:tsconfig.json)`.
+
+## Code Structure
+
+*   **Pages/Routes:** `[src/pages](mdc:src/pages)`
+*   **UI Components:** `[src/components](mdc:src/components)`
+*   **Shared Logic/Utilities:** `[src/lib](mdc:src/lib)`
+*   **Global Styles:** `[src/styles](mdc:src/styles)`
+*   **Type Definitions:** `[src/types](mdc:src/types)`
+*   **React Context:** `[src/context](mdc:src/context)`
+*   **Public Assets:** `[public/](mdc:public)`
+

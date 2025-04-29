@@ -1,6 +1,6 @@
 import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
-import Layout from '@/components/Layout';
+import ChatContainer from '@/components/Layout';
 import { useEffect, useState } from 'react';
 import { Conversation } from '@/types/Conversation';
 import { Auth, AuthContext } from '@/context/AuthContext';
@@ -16,10 +16,15 @@ export default function App({ Component, pageProps }: AppProps) {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
 
+  const removeConversation = (id: string) => {
+    setConversations((prevConversations) =>
+      prevConversations.filter((conv) => conv.id !== id)
+    );
+  };
+
   useEffect(() => {
     setLoading(true);
     setError(null);
-    // Fetch /api/conversations
     fetch('/api/conversations', {
       ...(auth.token && {
         headers: {
@@ -54,17 +59,22 @@ export default function App({ Component, pageProps }: AppProps) {
         },
       }}
     >
-      <Layout conversations={conversations} loading={loading} error={error}>
+      <ChatContainer
+        conversations={conversations}
+        loading={loading}
+        error={error}
+        removeConversation={removeConversation}
+      >
         <Component
           {...pageProps}
           addConversation={(conversation: Conversation) =>
             setConversations((conversations) => [
-              ...conversations,
               conversation,
+              ...conversations,
             ])
           }
         />
-      </Layout>
+      </ChatContainer>
     </AuthContext.Provider>
   );
 }

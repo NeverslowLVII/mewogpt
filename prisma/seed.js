@@ -19,7 +19,7 @@ async function main() {
             timestamp: new Date(),
           },
           {
-            content: 'Hi',
+            content: 'Salut',
             role: 'assistant',
             timestamp: new Date(new Date().getTime() + 5000),
           },
@@ -32,12 +32,12 @@ async function main() {
       messages: {
         create: [
           {
-            content: "Nice day, isn't it?",
+            content: "Belle journée, n'est-ce pas ?",
             role: 'user',
             timestamp: new Date(),
           },
           {
-            content: 'Yes, it is!',
+            content: 'Oui, en effet !',
             role: 'assistant',
             timestamp: new Date(new Date().getTime() + 2000),
           },
@@ -51,12 +51,12 @@ async function main() {
       messages: {
         create: [
           {
-            content: 'This is a private conversation',
+            content: 'Ceci est une conversation privée',
             role: 'user',
             timestamp: new Date(),
           },
           {
-            content: "Let's keep it secret",
+            content: 'Gardons cela secret',
             role: 'assistant',
             timestamp: new Date(new Date().getTime() + 5000),
           },

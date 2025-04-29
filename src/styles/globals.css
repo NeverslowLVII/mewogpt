@@ -1,3 +1,30 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Styles personnalisés pour la barre de défilement */
+::-webkit-scrollbar {
+  width: 8px; /* Largeur de la barre */
+  height: 8px; /* Hauteur pour les barres horizontales (si nécessaire) */
+}
+
+::-webkit-scrollbar-track {
+  background: #202123; /* Couleur de fond assortie à la sidebar */
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #444654; /* Couleur de la poignée (assortie aux messages IA) */
+  border-radius: 4px;
+  border: 2px solid #202123; /* Crée un léger espacement autour de la poignée */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #5a5c6d; /* Couleur au survol */
+}
+
+/* Optionnel: Styles pour Firefox (moins personnalisable) */
+/* body { */
+/*   scrollbar-width: thin; */
+/*   scrollbar-color: #444654 #202123; */
+/* } */

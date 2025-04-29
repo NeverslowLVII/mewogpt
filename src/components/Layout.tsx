@@ -6,6 +6,7 @@ type LayoutProps = {
   loading: boolean;
   error: Error | null;
   children: React.ReactNode;
+  removeConversation: (_id: string) => void;
 };
 
 export default function Layout({
@@ -13,11 +14,21 @@ export default function Layout({
   loading,
   error,
   children,
+  removeConversation,
 }: LayoutProps) {
   return (
-    <div className="flex h-screen w-screen text-gray-800 dark:text-gray-200">
-      <NavBar conversations={conversations} loading={loading} error={error} />
-      {children}
+    <div className="flex h-screen bg-[#343541] text-white overflow-hidden">
+      <div className="hidden md:flex bg-[#202123] w-[260px] flex-shrink-0">
+        <NavBar
+          conversations={conversations}
+          loading={loading}
+          error={error}
+          removeConversation={removeConversation}
+        />
+      </div>
+      <div className="flex flex-col flex-1 h-full overflow-hidden">
+        {children}
+      </div>
     </div>
   );
 }

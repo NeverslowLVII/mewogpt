@@ -6,16 +6,12 @@ generator client {
 }
 
 datasource db {
-  provider     = "mysql"
-  url          = env("DATABASE_URL")
-  relationMode = "prisma"
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
 }
 
-enum Role {
-  user
-  assistant
-}
-
+// Role as a string constant instead of enum
+// SQLite doesn't support enums
 model User {
   id            Int            @id @default(autoincrement())
   email         String         @unique
@@ -28,17 +24,16 @@ model Conversation {
   messages Message[]
   user     User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId   Int?
-
-  @@index([userId], name: "userId")
+  @@index([userId])
 }
 
 model Message {
   id             Int          @id @default(autoincrement())
-  content        String       @db.Text
+  content        String       // Removed @db.Text since SQLite doesn't support it
   conversationId Int
   conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
-  role           Role
+  role           String       // Changed from Role enum to String
   timestamp      DateTime     @default(now())
 
-  @@index([conversationId], name: "conversationId")
+  @@index([conversationId])
 }

@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import Message from './Message';
+import ChatBubble from './Message';
 
-export default function MessageLoading() {
+export default function LoadingIndicator() {
   const [points, setPoints] = useState(0);
 
   setTimeout(() => {
@@ -9,6 +9,9 @@ export default function MessageLoading() {
   }, 1000);
 
   return (
-    <Message role="assistant" content={`Loading${'.'.repeat(points % 4)}`} />
+    <ChatBubble
+      role="assistant"
+      content={`Chargement${'.'.repeat(points % 4)}`}
+    />
   );
 }
